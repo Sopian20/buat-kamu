@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Selamat Ulang Tahun — Claudia</title>
+  <!-- Bootstrap CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root{
+      --pink:#ffc0da;
+      --white:#fff;
+      --accent:#ff6fb5;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: linear-gradient(180deg, #fff 0%, #fff0f6 50%, #ffeef8 100%);
+      color:#333;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:2rem;
+    }
+    .card-stage{
+      width:100%;
+      max-width:980px;
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.12);
+      overflow:hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,240,250,0.9));
+    }
+    header{
+      padding:1.25rem 1.5rem;
+      background: linear-gradient(90deg,var(--pink),var(--white));
+      display:flex;align-items:center;gap:1rem;
+    }
+    .brand{
+      font-weight:700;font-size:1.25rem;color:#6b0b57;text-shadow:0 1px 0 rgba(255,255,255,0.6);
+    }
+    .stage-body{padding:2rem;position:relative;overflow:hidden}
+
+    /* floating balloons */
+    .balloon{position:absolute;width:60px;height:80px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;opacity:0.95}
+    .balloon::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:-10px;width:2px;height:20px;background:#333;opacity:0.15}
+    .balloon.one{left:6%;top:10%;background:linear-gradient(180deg,#ffd1e6,#ff9fc8);animation:float 6s ease-in-out infinite}
+    .balloon.two{right:8%;top:6%;width:48px;height:68px;background:linear-gradient(180deg,#fff0f6,#ffc0da);animation:float 5s ease-in-out 1.2s infinite}
+    .balloon.three{left:18%;top:26%;width:54px;height:74px;background:linear-gradient(180deg,#ffe6f2,#ffb6d9);animation:float 7s ease-in-out .4s infinite}
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}}
+
+    /* confetti canvas placeholder */
+    #confetti-canvas{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none}
+
+    /* cake 3D-ish */
+    .cake-wrap{display:flex;flex-direction:column;align-items:center;gap:0.85rem}
+    .cake{
+      width:320px;height:220px;position:relative;transform-style:preserve-3d;perspective:1000px; margin-top:1rem
+    }
+    .layer{position:absolute;left:50%;transform:translateX(-50%);border-radius:18px;box-shadow:0 8px 18px rgba(0,0,0,0.12);}
+    .layer.bottom{width:320px;height:80px;background:linear-gradient(180deg,#ff9fc8,#ff6fb5);bottom:0;}
+    .layer.middle{width:280px;height:64px;background:linear-gradient(180deg,#ffd1e6,#ffb6d9);bottom:36px;transform:translateX(-50%) rotateX(8deg)}
+    .layer.top{width:220px;height:54px;background:linear-gradient(180deg,#fff0f6,#ffe6f2);bottom:84px;}
+
+    /* frosting drips */
+    .frosting{position:absolute;left:50%;transform:translateX(-50%);width:260px;height:56px;border-radius:14px;bottom:70px;background:linear-gradient(180deg,#fff 0,#ffeef8 100%);box-shadow:inset 0 -6px 12px rgba(255,200,230,0.4)}
+    .candles{position:absolute;left:50%;transform:translateX(-50%);bottom:122px;display:flex;gap:10px}
+    .candle{width:8px;height:28px;background:#fff;border-radius:3px;position:relative;box-shadow:0 1px 2px rgba(0,0,0,0.12)}
+    .flame{position:absolute;top:-12px;left:50%;transform:translateX(-50%);width:12px;height:18px;border-radius:50% 50% 50% 50%;background:linear-gradient(180deg,#ffd966,#ff6a00);filter:drop-shadow(0 2px 5px rgba(255,120,30,0.5));animation:flicker .15s infinite}
+    @keyframes flicker{0%{transform:translateX(-50%) scaleY(1)}50%{transform:translateX(-50%) scaleY(1.08) translateY(-1px)}100%{transform:translateX(-50%) scaleY(1)}}
+
+    /* cake highlight */
+    .layer::after{content:'';position:absolute;left:8%;top:8%;right:8%;height:30%;background:linear-gradient(180deg,rgba(255,255,255,0.55),rgba(255,255,255,0.05));border-radius:12px;opacity:0.6}
+
+    /* cake decorations */
+    .cherry{width:12px;height:12px;background:#ff4d6d;border-radius:50%;position:absolute;top:-16px;}
+    .cherry.left{left:30%;}
+    .cherry.right{right:30%;}
+
+    .sprinkle{width:6px;height:2px;background:#ff85c1;position:absolute;border-radius:1px;}
+    .sprinkle.one{top:10px;left:20%;transform:rotate(20deg)}
+    .sprinkle.two{top:18px;left:45%;transform:rotate(-30deg)}
+    .sprinkle.three{top:12px;right:25%;transform:rotate(40deg)}
+
+    /* message area */
+    .message{max-width:700px;margin:1rem auto;text-align:center}
+    .poetic{font-style:italic;color:#72063c;font-size:1.05rem;line-height:1.6}
+    .happy{margin-top:1rem;font-weight:800;font-size:1.4rem;color:var(--accent);letter-spacing:1px}
+
+    footer{padding:0.75rem 1.5rem;background:transparent;text-align:center}
+    .controls{display:flex;flex-wrap:wrap;gap:0.5rem;justify-content:center;margin-top:1rem}
+    .btn-pink{background:var(--accent);color:white}
+  </style>
+</head>
+<body>
+  <div class="card-stage">
+    <header>
+      <div class="brand">Selamat Ulang Tahun — Claudia</div>
+      <div class="ms-auto small text-muted">Dibuat khusus untukmu 💖</div>
+    </header>
+
+    <div class="stage-body">
+      <canvas id="confetti-canvas"></canvas>
+      <div class="balloon one"></div>
+      <div class="balloon two"></div>
+      <div class="balloon three"></div>
+
+      <div class="cake-wrap text-center">
+        <div class="cake" aria-hidden="true">
+          <div class="layer bottom"></div>
+          <div class="layer middle"></div>
+          <div class="frosting"></div>
+          <div class="layer top">
+            <div class="cherry left"></div>
+            <div class="cherry right"></div>
+            <div class="sprinkle one"></div>
+            <div class="sprinkle two"></div>
+            <div class="sprinkle three"></div>
+          </div>
+          <div class="candles">
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+            <div class="candle"><div class="flame"></div></div>
+          </div>
+        </div>
+
+        <div class="message">
+          <p class="poetic">Di setiap hela napasmu hari ini, semoga doa-doa manis seperti lilin-lilin kecil menari dan memberi cahaya. Semoga langkahmu diselimuti keberanian, tawa, dan cinta yang tak lekang oleh waktu. Hari ini dunia merayakan hadirmu — bunga-bunga berbisik, dan bintang-bintang menggantung lebih rendah hanya untuk melihat senyummu.</p>
+          <div class="happy">Happy Birthday Claudia</div>
+        </div>
+
+        <div class="controls">
+          <button id="play-music" class="btn btn-pink btn-sm">Putar Musik</button>
+          <button id="toggle-confetti" class="btn btn-outline-pink btn-sm">Confetti</button>
+          <button id="toggle-balloons" class="btn btn-outline-secondary btn-sm">Toggle Balon</button>
+          <button id="blow-candles" class="btn btn-dark btn-sm">Tiup Lilin 🎂</button>
+        </div>
+
+        <!-- Countdown -->
+        <div id="countdown" class="mt-4 fs-5 fw-bold text-danger"></div>
+      </div>
+
+    </div>
+
+    <footer>
+      <small class="text-muted">Jika musik tidak otomatis diputar, tekan tombol "Putar Musik". Pastikan file musik tersedia di server.</small>
+    </footer>
+  </div>
+
+  <!-- Audio element -->
+  <audio id="bg-music" loop>
+    <source src="https://dl182.dmate19.online/?file=M3R4SUNiN3JsOHJ6WWZURnEvcUZ2cGlzVGhINm5mSXBpc0EraWlNbURhcEJwNWxpNHVpaExjNENHcVlIMklUdlBkZEcvRFdXZk1EWWRnbUF1cDBaVW5LVi80dDQ2eG5XL0pzMFRNdDBFMFRlbHZidzAyTlFpa0tuV0k2SVI1NUViRjVUdGtSRXh5S3MvYi9acVVhK3RIaWkrbVNuS2lFU29qSVpPT0haL0pvVmhENmVONk95aE1aVjlHQ002NEJNaDZQSTRWZWptK1I0cThvb1drWkxZWlZOMVpQMjNnPT0%3D" type="audio/mpeg">
+    Browser Anda tidak mendukung audio.
+  </audio>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Confetti
+    const confettiCanvas = document.getElementById('confetti-canvas');
+    const ctx = confettiCanvas.getContext('2d');
+    let W, H;
+    function resize(){W = confettiCanvas.width = confettiCanvas.offsetWidth; H = confettiCanvas.height = confettiCanvas.offsetHeight}
+    window.addEventListener('resize', resize); resize();
+
+    const pieces = [];
+    function spawnConfetti(){
+      for(let i=0;i<120;i++){
+        pieces.push({x:Math.random()*W,y:Math.random()*-H, r:Math.random()*6+4, d:Math.random()*60+20, color:['#ff6fb5','#ffd1e6','#ffb6d9','#fff0f6'][Math.floor(Math.random()*4)], tilt:Math.random()*10-5})
+      }
+    }
+    function update(){
+      ctx.clearRect(0,0,W,H);
+      for(let p of pieces){
+        p.y += Math.cos(p.d) + 2 + p.r/2;
+        p.x += Math.sin(p.d);
+        p.tilt += 0.1;
+        ctx.save();
+        ctx.translate(p.x,p.y);
+        ctx.rotate(p.tilt*0.05);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.6);
+        ctx.restore();
+      }
+      for(let i=pieces.length-1;i>=0;i--){ if(pieces[i].y>H+20) pieces.splice(i,1) }
+      if(confettiOn) requestAnimationFrame(update);
+    }
+    let confettiOn = false;
+    document.getElementById('toggle-confetti').addEventListener('click',()=>{
+      if(!confettiOn){ spawnConfetti(); confettiOn=true; update(); document.getElementById('toggle-confetti').classList.add('btn-pink'); }
+      else { pieces.length=0; confettiOn=false; ctx.clearRect(0,0,W,H); document.getElementById('toggle-confetti').classList.remove('btn-pink'); }
+    });
+
+    // Balloon toggle
+    const balloons = document.querySelectorAll('.balloon');
+    let balloonsOn = true;
+    document.getElementById('toggle-balloons').addEventListener('click',()=>{
+      balloonsOn = !balloonsOn; balloons.forEach(b=>b.style.display = balloonsOn ? 'block' : 'none');
+    });
+
+    // Play music
+    const music = document.getElementById('bg-music');
+    document.getElementById('play-music').addEventListener('click',()=>{ music.play(); });
+
+    // Blow candles interaction
+    document.getElementById('blow-candles').addEventListener('click',()=>{
+      document.querySelectorAll('.flame').forEach(f=>{ f.style.display='none'; });
+      spawnConfetti();
+      confettiOn = true;
+      update();
+      alert('🎉 Lilin sudah ditiup! Selamat Ulang Tahun Claudia 🎉');
+    });
+
+    // Space = toggle confetti
+    window.addEventListener('keydown',(e)=>{ if(e.code==='Space') { e.preventDefault(); document.getElementById('toggle-confetti').click(); } });
+
+    // Countdown ke jam 00:00 hari berikutnya
+    function startCountdown() {
+      const countdownEl = document.getElementById("countdown");
+
+      function updateCountdown() {
+        const now = new Date();
+        const midnight = new Date();
+        midnight.setHours(24, 0, 0, 0); // jam 00:00 berikutnya
+        const diff = midnight - now;
+
+        if (diff <= 0) {
+          countdownEl.innerHTML = "🎉 Sudah Jam 00:00 🎉";
+          if (music.paused) {
+            music.play(); // otomatis nyalakan musik
+          }
+          return;
+        }
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        countdownEl.innerHTML = `Hitung Mundur: ${hours}j ${minutes}m ${seconds}d`;
+        setTimeout(updateCountdown, 1000);
+      }
+
+      updateCountdown();
+    }
+    startCountdown();
+  </script>
+</body>
+</html>
